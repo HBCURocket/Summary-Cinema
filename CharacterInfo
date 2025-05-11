@@ -1,0 +1,677 @@
+[
+    {
+        "superheroes": [
+
+    {
+
+      "name": "Peter Parker",
+
+      "alias": "Spider-Man",
+
+      "powers": [
+
+        "Super strength",
+
+        "Wall-crawling",
+
+        "Spider-sense",
+
+        "Web-shooting"
+
+      ],
+
+      "affiliation": "Avengers",
+
+      "city": "New York",
+
+      "first_appearance": "Amazing Fantasy #15 (1962)",
+
+      "arch_enemy": "Green Goblin"
+
+    },
+
+    {
+
+      "name": "Tony Stark",
+
+      "alias": "Iron Man",
+
+      "powers": [
+
+        "Powered armor suit",
+
+        "Genius-level intellect",
+
+        "Skilled hand-to-hand combatant"
+
+      ],
+
+      "affiliation": "Avengers",
+
+      "city": "Malibu",
+
+      "first_appearance": "Tales of Suspense #39 (1963)",
+
+      "arch_enemy": "Mandarin"
+
+    },
+
+    {
+
+      "name": "Diana Prince",
+
+      "alias": "Wonder Woman",
+
+      "powers": [
+
+        "Super strength",
+
+        "Flight",
+
+        "Lasso of Truth",
+
+        "Agility",
+
+        "Healing factor"
+
+      ],
+
+      "affiliation": "Justice League",
+
+      "city": "Themyscira",
+
+      "first_appearance": "All Star Comics #8 (1941)",
+
+      "arch_enemy": "Cheetah"
+
+    },
+
+    {
+
+      "name": "Bruce Wayne",
+
+      "alias": "Batman",
+
+      "powers": [
+
+        "Peak human condition",
+
+        "Genius-level intellect",
+
+        "Martial arts expertise",
+
+        "Advanced technology"
+
+      ],
+
+      "affiliation": "Justice League",
+
+      "city": "Gotham City",
+
+      "first_appearance": "Detective Comics #27 (1939)",
+
+      "arch_enemy": "Joker"
+
+    },
+
+    {
+
+      "name": "Steve Rogers",
+
+      "alias": "Captain America",
+
+      "powers": [
+
+        "Enhanced strength",
+
+        "Enhanced agility",
+
+        "Enhanced endurance",
+
+        "Super soldier serum"
+
+      ],
+
+      "affiliation": "Avengers",
+
+      "city": "Brooklyn",
+
+      "first_appearance": "Captain America Comics #1 (1941)",
+
+      "arch_enemy": "Red Skull"
+
+    },
+
+    {
+
+      "name": "Thor Odinson",
+
+      "alias": "Thor",
+
+      "powers": [
+
+        "Super strength",
+
+        "Control over lightning",
+
+        "Flight",
+
+        "Immortality",
+
+        "Wield Mjolnir"
+
+      ],
+
+      "affiliation": "Avengers",
+
+      "city": "Asgard",
+
+      "first_appearance": "Journey into Mystery #83 (1962)",
+
+      "arch_enemy": "Loki"
+
+    },
+
+    {
+
+      "name": "Barry Allen",
+
+      "alias": "The Flash",
+
+      "powers": [
+
+        "Super speed",
+
+        "Time travel",
+
+        "Phasing through objects",
+
+        "Infinite mass punch"
+
+      ],
+
+      "affiliation": "Justice League",
+
+      "city": "Central City",
+
+      "first_appearance": "Showcase #4 (1956)",
+
+      "arch_enemy": "Reverse-Flash"
+
+    },
+
+    {
+
+      "name": "Hal Jordan",
+
+      "alias": "Green Lantern",
+
+      "powers": [
+
+        "Power ring",
+
+        "Flight",
+
+        "Energy blasts",
+
+        "Force field generation",
+
+        "Create constructs"
+
+      ],
+
+      "affiliation": "Justice League",
+
+      "city": "Coast City",
+
+      "first_appearance": "Showcase #22 (1959)",
+
+      "arch_enemy": "Sinestro"
+
+    },
+
+    {
+
+      "name": "Natasha Romanoff",
+
+      "alias": "Black Widow",
+
+      "powers": [
+
+        "Expert in hand-to-hand combat",
+
+        "Master of espionage",
+
+        "Peak human condition",
+
+        "Acrobatics"
+
+      ],
+
+      "affiliation": "Avengers",
+
+      "city": "Moscow",
+
+      "first_appearance": "Tales of Suspense #52 (1964)",
+
+      "arch_enemy": "Iron Maiden"
+
+    },
+
+    {
+
+      "name": "Clint Barton",
+
+      "alias": "Hawkeye",
+
+      "powers": [
+
+        "Master archer",
+
+        "Expert marksman",
+
+        "Hand-to-hand combat",
+
+        "Acrobat"
+
+      ],
+
+      "affiliation": "Avengers",
+
+      "city": "Waverly, Iowa",
+
+      "first_appearance": "Tales of Suspense #57 (1964)",
+
+      "arch_enemy": "Baron Zemo"
+
+    },
+
+    {
+
+      "name": "T'Challa",
+
+      "alias": "Black Panther",
+
+      "powers": [
+
+        "Enhanced strength",
+
+        "Super agility",
+
+        "Enhanced senses",
+
+        "Vibranium suit"
+
+      ],
+
+      "affiliation": "Avengers",
+
+      "city": "Wakanda",
+
+      "first_appearance": "Fantastic Four #52 (1966)",
+
+      "arch_enemy": "Killmonger"
+
+    },
+
+    {
+
+      "name": "Stephen Strange",
+
+      "alias": "Doctor Strange",
+
+      "powers": [
+
+        "Mastery of magic",
+
+        "Astral projection",
+
+        "Healing",
+
+        "Flight",
+
+        "Dimensional travel"
+
+      ],
+
+      "affiliation": "Defenders",
+
+      "city": "New York",
+
+      "first_appearance": "Strange Tales #110 (1963)",
+
+      "arch_enemy": "Dormammu"
+
+    },
+
+    {
+
+      "name": "Wade Wilson",
+
+      "alias": "Deadpool",
+
+      "powers": [
+
+        "Regenerative healing factor",
+
+        "Super strength",
+
+        "Expert hand-to-hand combat",
+
+        "Marksmanship"
+
+      ],
+
+      "affiliation": "X-Force",
+
+      "city": "Various (often in New York)",
+
+      "first_appearance": "New Mutants #98 (1990)",
+
+      "arch_enemy": "T-Ray"
+
+    },
+
+    {
+
+      "name": "Clark Kent",
+
+      "alias": "Superman",
+
+      "powers": [
+
+        "Super strength",
+
+        "Flight",
+
+        "Heat vision",
+
+        "X-ray vision",
+
+        "Invulnerability"
+
+      ],
+
+      "affiliation": "Justice League",
+
+      "city": "Metropolis",
+
+      "first_appearance": "Action Comics #1 (1938)",
+
+      "arch_enemy": "Lex Luthor"
+
+    }
+    {
+
+      "name": "Anung Un Rama",
+
+      "alias": "Hellboy",
+
+      "powers": [
+
+        "Superhuman Stamina",
+
+        "Demonic Transformation",
+
+        "Superhuman Strength",
+
+        "Immortality",
+
+        "Enhanced Sight"
+
+      ],
+
+      "affiliation": "B.P.R.D.",
+
+      "city": "Washington D.C",
+
+      "first_appearance": "San Diego Comic-Con Comics no. 2 (August 1993)",
+
+      "arch_enemy": "Grigori Rasputin"
+
+    }
+    {
+
+      "name": "Various people",
+
+      "alias": "The Mask",
+
+      "powers": [
+
+        "Warp Reality",
+
+        "Enhanced Agility",
+
+        "Healing factor",
+
+        "Immortality",
+
+        "Duplication"
+
+      ],
+
+      "affiliation": "Norse god Loki",
+
+      "city": "Edge City",
+
+      "first_appearance": "Masque: Dark Horse Presents #10 (September 1987)",
+
+      "arch_enemy": "Dorian Tyrell"
+
+    }
+    {
+
+      "name": "Usagi Yojimbo",
+
+      "alias": "Miyamoto Usagi",
+
+      "powers": [
+
+        "Master Swordsmanship",
+
+        "Keen Observation",
+
+        "Keen Awareness",
+
+        "Enhanced Agility and Dexterity",
+
+        "Knowledge of Yokai"
+
+      ],
+
+      "affiliation": "None",
+
+      "city": "Neo Edo",
+
+      "first_appearance": "Albedo Anthropomorphics #2",
+
+      "arch_enemy": "Lord Hikiji"
+
+    }
+    {
+
+      "name": "None",
+
+      "alias": "The Goon",
+
+      "powers": [
+
+        "Superhuman Speed",
+
+        "Superhuman Strength",
+
+        "Superhuman Durability",
+
+      ],
+
+      "affiliation": "The Mob",
+
+      "city": "The Town",
+
+      "first_appearance": "Avatar Illustrated (June 1998, Avatar Press)",
+
+      "arch_enemy": "The Nameless Man, The Zombie Priest"
+
+    }
+    {
+
+      "name": "Jim Albright",
+
+      "alias": "Captain Midnight",
+
+      "powers": [
+
+        "Flight",
+
+        "Genius-level Intelligence",
+
+        "Enhanced Marksmanship",
+
+      ],
+
+      "affiliation": "Secret Squadron",
+
+      "city": "Various",
+
+      "first_appearance": "Captain Midnight adventures in The Funnies #57",
+
+      "arch_enemy": "Ivan Shark"
+
+    }
+    {
+
+      "name": "Mark Grayson",
+
+      "alias": "Invicible",
+
+      "powers": [
+
+        "Flight",
+
+        "Superhuman Strength",
+
+        "Superhuman Speed",
+        
+        "Superhuman Durability",
+
+      ],
+
+      "affiliation": "Coalition of PLanets",
+
+      "city": "Chicago",
+
+      "first_appearance": "Savage Dragon #102 (August 2002)",
+
+      "arch_enemy": "Angstrom Levy"
+
+    }
+    {
+
+      "name": "Albert Francis Simmons",
+
+      "alias": "Spawn",
+
+      "powers": [
+
+        "Flight",
+
+        "Phasing",
+
+        "Cosmic Awareness",
+        
+        "Transformation",
+
+      ],
+
+      "affiliation": "none",
+
+      "city": "New York City",
+
+      "first_appearance": "Spawn #1 (1992)",
+
+      "arch_enemy": "Violator"
+
+    }
+    {
+
+      "name": "Sara Pezzini",
+
+      "alias": "Witchblade",
+
+      "powers": [
+
+        "Symbiotic armor",
+
+      ],
+
+      "affiliation": "none",
+
+      "city": "New York City",
+
+      "first_appearance": "Witchblade Issue 1",
+
+      "arch_enemy": "Darkness"
+
+    }
+    {
+
+      "name": "Orion Pax",
+
+      "alias": "Optimus Prime",
+
+      "powers": [
+
+        "Superhuman Durability",
+        
+        "Transformation",
+        
+        "JetPower",
+        
+        "Energon axe",
+        
+        "Ion blaster",
+
+      ],
+
+      "affiliation": "Autobots",
+
+      "city": "California",
+
+      "first_appearance": "Transformers #1 Marvel 1984",
+
+      "arch_enemy": "Megatron"
+
+    }
+    {
+
+      "name": "Nolan",
+
+      "alias": "Omni-Man",
+
+      "powers": [
+
+        "Flight",
+        
+        "Nigh-invulnerability",
+        
+        "Longevity",
+        
+        "Superhuman Strength",
+        
+        "Decelerated Aging",
+
+      ],
+
+      "affiliation": "Viltrum",
+
+      "city": "Viltrum Empire",
+
+      "first_appearance": "Omniman: Supreme #53 (September 1997)",
+
+      "arch_enemy": "Thragg"
+
+    }
+
+  ]
+
+}
