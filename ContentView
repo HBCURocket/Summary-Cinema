@@ -1,0 +1,97 @@
+//
+//  ContentView.swift
+//  Summary Cinema
+//
+//  Created by Elali McNair on 4/9/25.
+//
+
+import SwiftUI
+
+@main
+struct SummaryCinemaApp: App {
+    @AppStorage("isDarkMode") private var isDarkMode: Bool = true
+    @StateObject var favoritesManager = FavoritesManager()
+    @StateObject var themeManager = ThemeManager()
+
+    var body: some Scene {
+        WindowGroup {
+            LoginView()
+                .environmentObject(favoritesManager)
+                .environmentObject(themeManager)
+                .preferredColorScheme(isDarkMode ? .dark : .light) // <- Apply global theme
+        }
+    }
+}
+
+struct ContentView: View {
+    let username: String
+    let password: String
+    @EnvironmentObject var themeManager: ThemeManager
+
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    HStack {
+                        Text("Comic Universes")
+                            .font(.largeTitle)
+                            .bold()
+                            .foregroundColor(themeManager.textColor)
+
+                        Spacer()
+
+                        NavigationLink(destination: AccountView(username: username, password: password)) {
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(themeManager.textColor)
+                                .padding(5)
+                        }
+                    }
+                    .padding(.horizontal)
+                    .padding(.top)
+
+                    ComicSection(title: "Marvel", imageName: "marvel", destination: MarvelView())
+                    ComicSection(title: "DC", imageName: "DC", destination: DCView())
+                    ComicSection(title: "Image Comics", imageName: "Image comics", destination: ImageView())
+                    ComicSection(title: "Dark Horse Comics", imageName: "Dark Horse comics", destination: DarkHorseView())
+
+                    Spacer()
+                }
+                .background(themeManager.backgroundColor)
+            }
+            .background(themeManager.backgroundColor.ignoresSafeArea())
+        }
+    }
+}
+
+struct ComicSection<Destination: View>: View {
+    var title: String
+    var imageName: String
+    var destination: Destination
+
+    var body: some View {
+        NavigationLink(destination: destination) {
+            ZStack(alignment: .bottomLeading) {
+                Image(imageName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 150)
+                    .clipped()
+                    .cornerRadius(10)
+
+                Text(title)
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(.white)
+                    .padding(10)
+                    .background(Color.black.opacity(0.6))
+                    .cornerRadius(8)
+                    .padding([.leading, .bottom], 8)
+            }
+            .frame(height: 150) // Match image height
+            .contentShape(Rectangle()) // Restrict tap area to image frame
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+}
