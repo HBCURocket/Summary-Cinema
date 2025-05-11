@@ -1,0 +1,202 @@
+//
+//  ImageDetailView.swift
+//  Summary Cinema
+//
+//  Created by Elali McNair on 4/22/25.
+//
+
+import SwiftUI
+
+struct ImageView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+    
+    struct Character: Identifiable {
+        let id = UUID()
+        let name: String
+        let imageName: String
+    }
+
+    let characters: [Character] = [
+        Character(name: "Invincible", imageName: "invincible"),
+        Character(name: "Spawn", imageName: "spawn"),
+        Character(name: "Witchblade", imageName: "witchblade"),
+        Character(name: "Optimus Prime", imageName: "optimus"),
+        Character(name: "Omni-Man", imageName: "omni")
+    ]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            HStack {
+                Spacer()
+                Image("image")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 80)
+                Spacer()
+            }
+            .padding(.top, 10)
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 15) {
+                    ForEach(characters) { character in
+                        NavigationLink(destination: ImageCharacterDetailView(character: character)) {
+                            HStack(spacing: 15) {
+                                Image(character.imageName)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 50, height: 50)
+                                    .clipShape(Circle())
+                                    .padding(.top, 15)
+
+                                Text(character.name)
+                                    .font(.title3)
+                                    .foregroundColor(themeManager.textColor)
+
+                                Spacer()
+                            }
+                            .padding()
+                            .background(themeManager.textColor.opacity(0.1))
+                            .cornerRadius(10)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                }
+                .padding(.horizontal)
+            }
+
+            Spacer()
+        }
+        .background(themeManager.backgroundColor)
+        .navigationBarTitleDisplayMode(.inline)
+        .ignoresSafeArea(edges: [.bottom])
+    }
+}
+
+struct ImageCharacterDetailView: View {
+    let character: ImageView.Character
+    @EnvironmentObject var favoritesManager: FavoritesManager
+    @EnvironmentObject var themeManager: ThemeManager
+
+    var isFavorited: Bool {
+        let favCharacter = FavoriteCharacter(name: character.name, imageName: character.imageName)
+        return favoritesManager.isFavorite(favCharacter)
+    }
+
+    struct CharacterDetail {
+        let name: String
+        let alias: String
+        let powers: [String]
+        let affiliation: String
+        let city: String
+        let firstAppearance: String
+        let archEnemy: String
+    }
+
+    let detailedInfo: [String: CharacterDetail] = [
+        "Invincible": CharacterDetail(
+            name: "Mark Grayson",
+            alias: "Invincible",
+            powers: ["Flight", "Superhuman Strength", "Superhuman Speed", "Superhuman Durability"],
+            affiliation: "Coalition of Planets",
+            city: "Chicago",
+            firstAppearance: "Savage Dragon #102 (August 2002)",
+            archEnemy: "Angstrom Levy"
+        ),
+        "Spawn": CharacterDetail(
+            name: "Albert Francis Simmons",
+            alias: "Spawn",
+            powers: ["Flight", "Phasing", "Cosmic Awareness", "Transformation"],
+            affiliation: "None",
+            city: "New York City",
+            firstAppearance: "Spawn #1 (1992)",
+            archEnemy: "Violator"
+        ),
+        "Witchblade": CharacterDetail(
+            name: "Sara Pezzini",
+            alias: "Witchblade",
+            powers: ["Symbiotic armor"],
+            affiliation: "None",
+            city: "New York City",
+            firstAppearance: "Witchblade Issue 1",
+            archEnemy: "Darkness"
+        ),
+        "Optimus Prime": CharacterDetail(
+            name: "Orion Pax",
+            alias: "Optimus Prime",
+            powers: ["Superhuman Durability", "Transformation", "JetPower", "Energon axe", "Ion blaster"],
+            affiliation: "Autobots",
+            city: "California",
+            firstAppearance: "Transformers #1 Marvel 1984",
+            archEnemy: "Megatron"
+        ),
+        "Omni-Man": CharacterDetail(
+            name: "Nolan",
+            alias: "Omni-Man",
+            powers: ["Flight", "Nigh-invulnerability", "Longevity", "Superhuman Strength", "Decelerated Aging"],
+            affiliation: "Viltrum",
+            city: "Viltrum Empire",
+            firstAppearance: "Omniman: Supreme #53 (September 1997)",
+            archEnemy: "Thragg"
+        )
+    ]
+
+    var body: some View {
+        GeometryReader { geometry in
+            VStack(spacing: 20) {
+                HStack {
+                    Spacer()
+                    Image(character.imageName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 200)
+                        .padding(.top, geometry.safeAreaInsets.top + 20)
+                    Spacer()
+                }
+
+                Button(action: {
+                    let favCharacter = FavoriteCharacter(name: character.name, imageName: character.imageName)
+                    favoritesManager.toggleFavorite(favCharacter)
+                }) {
+                    Image(systemName: isFavorited ? "star.fill" : "star")
+                        .foregroundColor(.yellow)
+                        .font(.title)
+                }
+
+                Text("Welcome to \(character.name)'s page!")
+                    .font(.title)
+                    .foregroundColor(themeManager.textColor)
+                    .multilineTextAlignment(.center)
+
+                if let info = detailedInfo[character.name] {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Alias: \(info.name)")
+                        Text("Affiliation: \(info.affiliation)")
+                        Text("City: \(info.city)")
+                        Text("First Appearance: \(info.firstAppearance)")
+                        Text("Arch Enemy: \(info.archEnemy)")
+
+                        Text("Powers:")
+                            .font(.headline)
+                            .padding(.top, 8)
+
+                        VStack(alignment: .leading, spacing: 5) {
+                            ForEach(info.powers, id: \.self) { power in
+                                Text("• \(power)")
+                            }
+                        }
+                    }
+                    .font(.body)
+                    .foregroundColor(themeManager.textColor)
+                    .padding()
+                    .background(themeManager.textColor.opacity(0.05))
+                    .cornerRadius(10)
+                }
+
+                Spacer()
+            }
+            .padding()
+            .background(themeManager.backgroundColor)
+            .ignoresSafeArea()
+        }
+    }
+}
