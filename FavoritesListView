@@ -1,0 +1,99 @@
+//
+//  FavoritesListView.swift
+//  Summary Cinema
+//
+//  Created by Elali McNair on 4/24/25.
+//
+
+import Foundation
+import SwiftUI
+
+class FavoritesManager: ObservableObject {
+    @EnvironmentObject var themeManager: ThemeManager
+    @Published var favorites: [FavoriteCharacter] = []
+
+    func isFavorite(_ character: FavoriteCharacter) -> Bool {
+        return favorites.contains(where: {
+            $0.name == character.name && $0.imageName == character.imageName
+        })
+    }
+
+    func toggleFavorite(_ character: FavoriteCharacter) {
+        if isFavorite(character) {
+            favorites.removeAll {
+                $0.name == character.name && $0.imageName == character.imageName
+            }
+        } else {
+            favorites.append(character)
+        }
+    }
+}
+
+struct FavoriteCharacter: Identifiable, Equatable {
+    let id = UUID()
+    let name: String
+    let imageName: String
+}
+
+struct FavoritesListView: View {
+    @EnvironmentObject var favoritesManager: FavoritesManager
+    @EnvironmentObject var themeManager: ThemeManager
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Your Favorites")
+                .font(.largeTitle)
+                .bold()
+                .foregroundColor(themeManager.textColor)
+                .padding()
+
+            if favoritesManager.favorites.isEmpty {
+                Text("No favorites yet.")
+                    .foregroundColor(.gray)
+                    .padding()
+            } else {
+                ScrollView {
+                    LazyVStack(spacing: 15) {
+                        ForEach(favoritesManager.favorites) { character in
+                            FavoriteCharacterRow(character: character)
+                        }
+                    }
+                    .padding()
+                }
+            }
+        }
+        .navigationTitle("Favorites")
+        .background(themeManager.backgroundColor.ignoresSafeArea())
+    }
+}
+
+struct FavoriteCharacterRow: View {
+    var character: FavoriteCharacter
+    @EnvironmentObject var favoritesManager: FavoritesManager
+    @EnvironmentObject var themeManager: ThemeManager
+
+    var body: some View {
+        HStack(spacing: 15) {
+            Image(character.imageName.lowercased().replacingOccurrences(of: " ", with: ""))
+                .resizable()
+                .frame(width: 50, height: 50)
+                .clipShape(Circle())
+
+            Text(character.name)
+                .font(.title3)
+                .foregroundColor(themeManager.textColor)
+
+            Spacer()
+
+            Image(systemName: favoritesManager.isFavorite(character) ? "star.fill" : "star")
+                .foregroundColor(.yellow)
+                .onTapGesture {
+                    favoritesManager.toggleFavorite(character)
+                }
+                .frame(width: 30, height: 30)
+        }
+        .padding()
+        .background(themeManager.cardColor)
+        .cornerRadius(10)
+    }
+}
