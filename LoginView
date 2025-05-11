@@ -1,0 +1,49 @@
+//
+//  LoginView.swift
+//  Summary Cinema
+//
+//  Created by Elali McNair on 4/24/25.
+//
+
+import SwiftUI
+
+struct LoginView: View {
+    @State private var username: String = ""
+    @State private var password: String = ""
+    @State private var isLoggedIn: Bool = false
+
+    var body: some View {
+        NavigationView {
+            VStack(spacing: 30) {
+                Text("Summary Cinema Login")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+
+                TextField("Username", text: $username)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .autocapitalization(.none)
+                    .padding(.horizontal)
+
+                SecureField("Password", text: $password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding(.horizontal)
+
+                Button("Login") {
+                    isLoggedIn = true
+                }
+                .padding()
+                .foregroundColor(.white)
+                .background(Color.blue)
+                .cornerRadius(10)
+
+                Spacer()
+            }
+            .padding()
+            .background(Color.black.ignoresSafeArea())
+            .fullScreenCover(isPresented: $isLoggedIn) {
+                ContentView(username: username, password: password)
+            }
+        }
+    }
+}
