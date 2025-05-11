@@ -1,0 +1,91 @@
+//
+//  AccountView.swift
+//  Summary Cinema
+//
+//  Created by Elali McNair on 4/24/25.
+//
+
+import SwiftUI
+
+struct AccountView: View {
+    let username: String
+    let password: String
+    @EnvironmentObject var themeManager: ThemeManager
+    @Environment(\.presentationMode) var presentationMode
+    @State private var isLoggedOut = false
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 20) {
+                Text("Account Info")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(themeManager.textColor)
+
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Username: \(username)")
+                    Text("Password: \(password)")
+                }
+                .font(.body)
+                .foregroundColor(themeManager.textColor)
+                .padding()
+                .background(themeManager.textColor.opacity(0.1))
+                .cornerRadius(10)
+
+                Divider().background(themeManager.textColor)
+
+                NavigationLink(destination: FavoritesListView()) {
+                    HStack {
+                        Image(systemName: "star.fill")
+                        Text("Favorites List")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
+                    .foregroundColor(themeManager.textColor)
+                    .padding()
+                    .background(themeManager.textColor.opacity(0.05))
+                    .cornerRadius(8)
+                }
+
+                NavigationLink(destination: SettingsView()) {
+                    HStack {
+                        Image(systemName: "gear")
+                        Text("Settings")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
+                    .foregroundColor(themeManager.textColor)
+                    .padding()
+                    .background(themeManager.textColor.opacity(0.05))
+                    .cornerRadius(8)
+                }
+
+                NavigationLink(destination: AppDescriptionView()) {
+                    HStack {
+                        Image(systemName: "info.circle")
+                        Text("App Description")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
+                    .foregroundColor(themeManager.textColor)
+                    .padding()
+                    .background(themeManager.textColor.opacity(0.05))
+                    .cornerRadius(8)
+                }
+
+                Button("Logout") {
+                    isLoggedOut = true
+                }
+                .foregroundColor(.red)
+                .padding(.top, 10)
+
+                Spacer()
+            }
+            .padding()
+            .background(themeManager.backgroundColor.ignoresSafeArea())
+            .fullScreenCover(isPresented: $isLoggedOut) {
+                LoginView()
+            }
+        }
+    }
+}
