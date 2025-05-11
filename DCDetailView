@@ -1,0 +1,202 @@
+//
+//  DCDetailView.swift
+//  Summary Cinema
+//
+//  Created by Elali McNair on 4/22/25.
+//
+
+import SwiftUI
+
+struct DCView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+
+    struct Character: Identifiable {
+        let id = UUID()
+        let name: String
+        let imageName: String
+    }
+
+    let characters: [Character] = [
+        Character(name: "Batman", imageName: "batman"),
+        Character(name: "Wonder Woman", imageName: "wonderwoman"),
+        Character(name: "Superman", imageName: "superman"),
+        Character(name: "The Flash", imageName: "flash"),
+        Character(name: "Green Lantern", imageName: "greenlantern")
+    ]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            HStack {
+                Spacer()
+                Image("dc 1")
+                    .resizable()
+                    .aspectRatio(3.5, contentMode: .fit)
+                    .frame(height: 80)
+                Spacer()
+            }
+            .padding(.top, 10)
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 15) {
+                    ForEach(characters) { character in
+                        NavigationLink(destination: DCCharacterDetailView(character: character)) {
+                            HStack(spacing: 15) {
+                                Image(character.imageName)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 50, height: 50)
+                                    .clipShape(Circle())
+                                    .padding(.top, 15)
+
+                                Text(character.name)
+                                    .font(.title3)
+                                    .foregroundColor(themeManager.textColor) // ✅ Dynamic text color
+
+                                Spacer()
+                            }
+                            .padding()
+                            .background(themeManager.cardColor)           // ✅ Dynamic card background
+                            .cornerRadius(10)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                }
+                .padding(.horizontal)
+            }
+
+            Spacer()
+        }
+        .background(themeManager.backgroundColor)  // ✅ Dynamic background
+        .navigationBarTitleDisplayMode(.inline)
+        .ignoresSafeArea(edges: [.bottom])
+    }
+}
+
+struct DCCharacterDetailView: View {
+    let character: DCView.Character
+    @EnvironmentObject var favoritesManager: FavoritesManager
+    @EnvironmentObject var themeManager: ThemeManager // ✅ Add this
+
+    var isFavorited: Bool {
+        let favCharacter = FavoriteCharacter(name: character.name, imageName: character.imageName)
+        return favoritesManager.isFavorite(favCharacter)
+    }
+
+    struct CharacterDetail {
+        let name: String
+        let alias: String
+        let powers: [String]
+        let affiliation: String
+        let city: String
+        let firstAppearance: String
+        let archEnemy: String
+    }
+
+    let detailedInfo: [String: CharacterDetail] = [
+        "Wonder Woman": CharacterDetail(
+            name: "Diana Prince",
+            alias: "Wonder Woman",
+            powers: ["Super strength", "Flight", "Lasso of Truth", "Agility", "Healing factor"],
+            affiliation: "Justice League",
+            city: "Themyscira",
+            firstAppearance: "All Star Comics #8 (1941)",
+            archEnemy: "Cheetah"
+        ),
+        "Batman": CharacterDetail(
+            name: "Bruce Wayne",
+            alias: "Batman",
+            powers: ["Peak human condition", "Genius-level intellect", "Martial arts expertise", "Advanced technology"],
+            affiliation: "Justice League",
+            city: "Gotham City",
+            firstAppearance: "Detective Comics #27 (1939)",
+            archEnemy: "Joker"
+        ),
+        "The Flash": CharacterDetail(
+            name: "Barry Allen",
+            alias: "The Flash",
+            powers: ["Super speed", "Time travel", "Phasing through objects", "Infinite mass punch"],
+            affiliation: "Justice League",
+            city: "Central City",
+            firstAppearance: "Showcase #4 (1956)",
+            archEnemy: "Reverse-Flash"
+        ),
+        "Green Lantern": CharacterDetail(
+            name: "Hal Jordan",
+            alias: "Green Lantern",
+            powers: ["Power ring", "Flight", "Energy blasts", "Force field generation", "Create constructs"],
+            affiliation: "Justice League",
+            city: "Coast City",
+            firstAppearance: "Showcase #22 (1959)",
+            archEnemy: "Sinestro"
+        ),
+        "Superman": CharacterDetail(
+            name: "Clark Kent",
+            alias: "Superman",
+            powers: ["Super strength", "Flight", "Heat vision", "X-ray vision", "Invulnerability"],
+            affiliation: "Justice League",
+            city: "Metropolis",
+            firstAppearance: "Action Comics #1 (1938)",
+            archEnemy: "Lex Luthor"
+        )
+    ]
+
+    var body: some View {
+            GeometryReader { geometry in
+                VStack(spacing: 20) {
+                    HStack {
+                        Spacer()
+                        Image(character.imageName)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 200)
+                            .padding(.top, geometry.safeAreaInsets.top + 20)
+                        Spacer()
+                    }
+
+                    Button(action: {
+                        let favCharacter = FavoriteCharacter(name: character.name, imageName: character.imageName)
+                        favoritesManager.toggleFavorite(favCharacter)
+                    }) {
+                        Image(systemName: isFavorited ? "star.fill" : "star")
+                            .foregroundColor(.yellow)
+                            .font(.title)
+                    }
+
+                    Text("Welcome to \(character.name)'s page!")
+                        .font(.title)
+                        .foregroundColor(themeManager.textColor)  // ✅ Dynamic text color
+                        .multilineTextAlignment(.center)
+
+                    if let info = detailedInfo[character.name] {
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text("Alias: \(info.name)")
+                            Text("Affiliation: \(info.affiliation)")
+                            Text("City: \(info.city)")
+                            Text("First Appearance: \(info.firstAppearance)")
+                            Text("Arch Enemy: \(info.archEnemy)")
+
+                            Text("Powers:")
+                                .font(.headline)
+                                .padding(.top, 8)
+
+                            VStack(alignment: .leading, spacing: 5) {
+                                ForEach(info.powers, id: \.self) { power in
+                                    Text("• \(power)")
+                                }
+                            }
+                        }
+                        .font(.body)
+                        .foregroundColor(themeManager.textColor)    // ✅ Dynamic text color
+                        .padding()
+                        .background(themeManager.cardColor)         // ✅ Dynamic card background
+                        .cornerRadius(10)
+                    }
+
+                    Spacer()
+                }
+                .padding()
+                .background(themeManager.backgroundColor)           // ✅ Dynamic background
+                .ignoresSafeArea()
+            }
+        }
+    }
