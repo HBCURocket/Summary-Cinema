@@ -1,0 +1,227 @@
+import SwiftUI
+
+struct MarvelView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+
+    struct Character: Identifiable {
+        let id = UUID()
+        let name: String
+        let imageName: String
+    }
+
+    let characters: [Character] = [
+        Character(name: "Spider-Man", imageName: "spiderman"),
+        Character(name: "Iron Man", imageName: "ironman"),
+        Character(name: "Captain America", imageName: "captainamerica"),
+        Character(name: "Thor", imageName: "thor"),
+        Character(name: "Black Widow", imageName: "blackwidow")
+    ]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            // Centered Marvel logo
+            HStack {
+                Spacer()
+                Image("marvel")
+                    .resizable()
+                    .aspectRatio(3.5, contentMode: .fit)
+                    .frame(height: 80)
+                Spacer()
+            }
+            .padding(.top, 10)
+
+            // Characters as clickable tabs
+            ScrollView {
+                VStack(alignment: .leading, spacing: 15) {
+                    ForEach(characters) { character in
+                        NavigationLink(destination: CharacterDetailView(character: character)) {
+                            HStack(spacing: 15) {
+                                // Character images
+                                Image(character.imageName)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 50, height: 50)
+                                    .clipShape(Circle())
+                                    .padding(.top, 15)
+
+                                Text(character.name)
+                                    .font(.title3)
+                                    .foregroundColor(themeManager.textColor) // Updated here
+
+                                Spacer()
+                            }
+                            .padding()
+                            .background(themeManager.cardColor) // Updated here
+                            .cornerRadius(10)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                }
+                .padding(.horizontal)
+            }
+
+            Spacer()
+        }
+        .background(themeManager.backgroundColor) // Updated here
+        .navigationBarTitleDisplayMode(.inline)
+        .ignoresSafeArea(edges: [.bottom])
+    }
+}
+
+struct CharacterDetailView: View {
+    @EnvironmentObject var themeManager: ThemeManager  // Add this line
+    let character: MarvelView.Character
+    @EnvironmentObject var favoritesManager: FavoritesManager
+
+    // Model for extended character info
+    struct CharacterDetail {
+        let name: String
+        let alias: String
+        let powers: [String]
+        let affiliation: String
+        let city: String
+        let firstAppearance: String
+        let archEnemy: String
+    }
+
+    // Detailed bios for multiple characters
+    let detailedInfo: [String: CharacterDetail] = [
+        "Black Widow": CharacterDetail(
+            name: "Natasha Romanoff",
+            alias: "Black Widow",
+            powers: [
+                "Expert in hand-to-hand combat",
+                "Master of espionage",
+                "Peak human condition",
+                "Acrobatics"
+            ],
+            affiliation: "Avengers",
+            city: "Moscow",
+            firstAppearance: "Tales of Suspense #52 (1964)",
+            archEnemy: "Iron Maiden"
+        ),
+        "Thor": CharacterDetail(
+            name: "Thor Odinson",
+            alias: "Thor",
+            powers: [
+                "Super strength",
+                "Control over lightning",
+                "Flight",
+                "Immortality",
+                "Wield Mjolnir"
+            ],
+            affiliation: "Avengers",
+            city: "Asgard",
+            firstAppearance: "Journey into Mystery #83 (1962)",
+            archEnemy: "Loki"
+        ),
+        "Captain America": CharacterDetail(
+            name: "Steve Rogers",
+            alias: "Captain America",
+            powers: [
+                "Enhanced strength",
+                "Enhanced agility",
+                "Enhanced endurance",
+                "Super soldier serum"
+            ],
+            affiliation: "Avengers",
+            city: "Brooklyn",
+            firstAppearance: "Captain America Comics #1 (1941)",
+            archEnemy: "Red Skull"
+        ),
+        "Iron Man": CharacterDetail(
+            name: "Tony Stark",
+            alias: "Iron Man",
+            powers: [
+                "Powered armor suit",
+                "Genius-level intellect",
+                "Skilled hand-to-hand combatant"
+            ],
+            affiliation: "Avengers",
+            city: "Malibu",
+            firstAppearance: "Tales of Suspense #39 (1963)",
+            archEnemy: "Mandarin"
+        ),
+        "Spider-Man": CharacterDetail(
+            name: "Peter Parker",
+            alias: "Spider-Man",
+            powers: [
+                "Super strength",
+                "Wall-crawling",
+                "Spider-sense",
+                "Web-shooting"
+            ],
+            affiliation: "Avengers",
+            city: "New York",
+            firstAppearance: "Amazing Fantasy #15 (1962)",
+            archEnemy: "Green Goblin"
+        )
+    ]
+    
+    var isFavorited: Bool {
+        let favCharacter = FavoriteCharacter(name: character.name, imageName: character.imageName)
+        return favoritesManager.isFavorite(favCharacter)
+    }
+
+    var body: some View {
+        GeometryReader { geometry in
+            VStack(spacing: 20) {
+                // Centered character image
+                HStack {
+                    Spacer()
+                    Image(character.imageName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 200)
+                        .padding(.top, geometry.safeAreaInsets.top + 20)
+                    Spacer()
+                }
+                
+                Button(action: {
+                    let favCharacter = FavoriteCharacter(name: character.name, imageName: character.imageName)
+                    favoritesManager.toggleFavorite(favCharacter)
+                }) {
+                    Image(systemName: isFavorited ? "star.fill" : "star")
+                        .foregroundColor(.yellow)
+                        .font(.title)
+                }
+
+                Text("Welcome to \(character.name)'s page!")
+                    .font(.title)
+                    .foregroundColor(themeManager.textColor) // Updated here
+                    .multilineTextAlignment(.center)
+
+                // Detailed info section
+                if let info = detailedInfo[character.name] {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Alias: \(info.name)")
+                        Text("Affiliation: \(info.affiliation)")
+                        Text("City: \(info.city)")
+                        Text("First Appearance: \(info.firstAppearance)")
+                        Text("Arch Enemy: \(info.archEnemy)")
+
+                        Text("Powers:")
+                            .font(.headline)
+                            .padding(.top, 8)
+
+                        VStack(alignment: .leading, spacing: 5) {
+                            ForEach(info.powers, id: \.self) { power in
+                                Text("• \(power)")
+                            }
+                        }
+                    }
+                    .font(.body)
+                    .foregroundColor(themeManager.textColor) // Updated here
+                    .padding()
+                    .background(themeManager.cardColor) // Updated here
+                    .cornerRadius(10)
+                }
+
+                Spacer()
+            }
+            .padding()
+            .background(themeManager.backgroundColor) // Updated here
+            .ignoresSafeArea()
+        }
+    }
+}
