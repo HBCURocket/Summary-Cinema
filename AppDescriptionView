@@ -1,0 +1,41 @@
+//
+//  AppDescriptionView.swift
+//  Summary Cinema
+//
+//  Created by Elali McNair on 4/24/25.
+//
+
+import SwiftUI
+
+struct AppDescriptionView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                Text("📱 Summary Cinema")
+                    .font(.largeTitle)
+                    .bold()
+                    .foregroundColor(themeManager.textColor)
+
+                Text("""
+                Summary Cinema is your go-to app for exploring iconic comic book characters across the Marvel, DC, Image, and Dark Horse universes.
+
+                🌟 Features:
+                • Browse detailed character bios and artwork.
+                • Favorite characters with a single tap for quick access.
+                • Toggle between Light and Dark Mode to suit your reading style.
+                • Keep track of your favorite heroes and villains.
+                • Log in and manage your personalized account experience.
+
+                Whether you're a lifelong fan or a curious newcomer, Summary Cinema helps you dive into the stories behind the suits.
+                """)
+                .font(.body)
+                .foregroundColor(themeManager.textColor.opacity(0.8))
+            }
+            .padding()
+        }
+        .background(themeManager.backgroundColor.ignoresSafeArea())
+        .navigationTitle("App Description")
+    }
+}
