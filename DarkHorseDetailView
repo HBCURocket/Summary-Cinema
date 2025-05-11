@@ -1,0 +1,203 @@
+//
+//  DarkHorseDetailView.swift
+//  Summary Cinema
+//
+//  Created by Elali McNair on 4/22/25.
+//
+
+import SwiftUI
+
+struct DarkHorseView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+
+    struct Character: Identifiable {
+        let id = UUID()
+        let name: String
+        let imageName: String
+    }
+
+    let characters: [Character] = [
+        Character(name: "Hellboy", imageName: "hellboy"),
+        Character(name: "The Mask", imageName: "themask"),
+        Character(name: "Miyamoto Usagi", imageName: "usagi"),
+        Character(name: "The Goon", imageName: "thegoon"),
+        Character(name: "Captain Midnight", imageName: "captainmidnight")
+    ]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            // Centered Dark Horse logo
+            HStack {
+                Spacer()
+                Image("darkhorse")
+                    .resizable()
+                    .aspectRatio(3.5, contentMode: .fit)
+                    .frame(height: 80)
+                Spacer()
+            }
+            .padding(.top, 10)
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 15) {
+                    ForEach(characters) { character in
+                        NavigationLink(destination: DarkHorseCharacterDetailView(character: character)) {
+                            HStack(spacing: 15) {
+                                Image(character.imageName)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 50, height: 50)
+                                    .clipShape(Circle())
+                                    .padding(.top, 15)
+
+                                Text(character.name)
+                                    .font(.title3)
+                                    .foregroundColor(themeManager.textColor)
+
+                                Spacer()
+                            }
+                            .padding()
+                            .background(themeManager.textColor.opacity(0.05))
+                            .cornerRadius(10)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                }
+                .padding(.horizontal)
+            }
+
+            Spacer()
+        }
+        .background(themeManager.backgroundColor)
+        .navigationBarTitleDisplayMode(.inline)
+        .ignoresSafeArea(edges: [.bottom])
+    }
+}
+
+struct DarkHorseCharacterDetailView: View {
+    let character: DarkHorseView.Character
+    @EnvironmentObject var favoritesManager: FavoritesManager
+    @EnvironmentObject var themeManager: ThemeManager
+    
+    var isFavorited: Bool {
+        let favCharacter = FavoriteCharacter(name: character.name, imageName: character.imageName)
+        return favoritesManager.isFavorite(favCharacter)
+    }
+
+    struct CharacterDetail {
+        let name: String
+        let alias: String
+        let powers: [String]
+        let affiliation: String
+        let city: String
+        let firstAppearance: String
+        let archEnemy: String
+    }
+
+    let detailedInfo: [String: CharacterDetail] = [
+        "Hellboy": CharacterDetail(
+            name: "Anung Un Rama",
+            alias: "Hellboy",
+            powers: ["Superhuman Stamina", "Demonic Transformation", "Superhuman Strength", "Immortality", "Enhanced Sight"],
+            affiliation: "B.P.R.D.",
+            city: "Washington D.C",
+            firstAppearance: "San Diego Comic-Con Comics no. 2 (August 1993)",
+            archEnemy: "Grigori Rasputin"
+        ),
+        "The Mask": CharacterDetail(
+            name: "Various people",
+            alias: "The Mask",
+            powers: ["Warp Reality", "Enhanced Agility", "Healing factor", "Immortality", "Duplication"],
+            affiliation: "Norse god Loki",
+            city: "Edge City",
+            firstAppearance: "Masque: Dark Horse Presents #10 (September 1987)",
+            archEnemy: "Dorian Tyrell"
+        ),
+        "Miyamoto Usagi": CharacterDetail(
+            name: "Usagi Yojimbo",
+            alias: "Miyamoto Usagi",
+            powers: ["Master Swordsmanship", "Keen Observation", "Keen Awareness", "Enhanced Agility and Dexterity", "Knowledge of Yokai"],
+            affiliation: "None",
+            city: "Neo Edo",
+            firstAppearance: "Albedo Anthropomorphics #2",
+            archEnemy: "Lord Hikiji"
+        ),
+        "The Goon": CharacterDetail(
+            name: "None",
+            alias: "The Goon",
+            powers: ["Superhuman Speed", "Superhuman Strength", "Superhuman Durability"],
+            affiliation: "The Mob",
+            city: "The Town",
+            firstAppearance: "Avatar Illustrated (June 1998, Avatar Press)",
+            archEnemy: "The Nameless Man, The Zombie Priest"
+        ),
+        "Captain Midnight": CharacterDetail(
+            name: "Jim Albright",
+            alias: "Captain Midnight",
+            powers: ["Flight", "Genius-level Intelligence", "Enhanced Marksmanship"],
+            affiliation: "Secret Squadron",
+            city: "Various",
+            firstAppearance: "Captain Midnight adventures in The Funnies #57",
+            archEnemy: "Ivan Shark"
+        )
+    ]
+
+    var body: some View {
+        GeometryReader { geometry in
+            VStack(spacing: 20) {
+                HStack {
+                    Spacer()
+                    Image(character.imageName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 200)
+                        .padding(.top, geometry.safeAreaInsets.top + 20)
+                    Spacer()
+                }
+
+                Button(action: {
+                    let favCharacter = FavoriteCharacter(name: character.name, imageName: character.imageName)
+                    favoritesManager.toggleFavorite(favCharacter)
+                }) {
+                    Image(systemName: isFavorited ? "star.fill" : "star")
+                        .foregroundColor(.yellow)
+                        .font(.title)
+                }
+
+                Text("Welcome to \(character.name)'s page!")
+                    .font(.title)
+                    .foregroundColor(themeManager.textColor)
+                    .multilineTextAlignment(.center)
+
+                if let info = detailedInfo[character.name] {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Alias: \(info.name)")
+                        Text("Affiliation: \(info.affiliation)")
+                        Text("City: \(info.city)")
+                        Text("First Appearance: \(info.firstAppearance)")
+                        Text("Arch Enemy: \(info.archEnemy)")
+
+                        Text("Powers:")
+                            .font(.headline)
+                            .padding(.top, 8)
+
+                        VStack(alignment: .leading, spacing: 5) {
+                            ForEach(info.powers, id: \.self) { power in
+                                Text("• \(power)")
+                            }
+                        }
+                    }
+                    .font(.body)
+                    .foregroundColor(themeManager.textColor)
+                    .padding()
+                    .background(themeManager.textColor.opacity(0.05))
+                    .cornerRadius(10)
+                }
+
+                Spacer()
+            }
+            .padding()
+            .background(themeManager.backgroundColor)
+            .ignoresSafeArea()
+        }
+    }
+}
