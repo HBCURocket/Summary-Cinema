@@ -1,0 +1,60 @@
+//
+//  SettingsView.swift
+//  Summary Cinema
+//
+//  Created by Elali McNair on 4/24/25.
+//
+
+import SwiftUI
+
+struct SettingsView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+
+    var body: some View {
+        Form {
+            Section(header: Text("Appearance")
+                .foregroundColor(themeManager.textColor)) {
+                Toggle("Light Mode", isOn: Binding(
+                    get: { !themeManager.isDarkMode },
+                    set: { themeManager.isDarkMode = !$0 }
+                ))
+            }
+
+            Section {
+                Button(role: .destructive) {
+                    themeManager.isDarkMode = true // Reset to default
+                } label: {
+                    Text("Reset Settings")
+                }
+            }
+        }
+        .navigationTitle("Settings")
+        .scrollContentBackground(.hidden) // Hides default Form background
+        .background(themeManager.backgroundColor.ignoresSafeArea())
+    }
+}
+
+
+class ThemeManager: ObservableObject {
+    @Published var isDarkMode: Bool {
+        didSet {
+            updateColors()
+        }
+    }
+
+    @Published var backgroundColor: Color = .black
+    @Published var textColor: Color = .white
+    @Published var cardColor: Color = Color.white.opacity(0.1)
+
+    init(isDarkMode: Bool = true) {
+        self.isDarkMode = isDarkMode
+        updateColors()
+    }
+
+    func updateColors() {
+        backgroundColor = isDarkMode ? .black : .white
+        textColor = isDarkMode ? .white : .black
+        cardColor = isDarkMode ? Color.white.opacity(0.1) : Color.black.opacity(0.05)
+    }
+}
+
